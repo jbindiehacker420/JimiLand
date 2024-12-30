@@ -8,8 +8,8 @@
     <meta name="description" content="{% block meta_description %}{{ site_description }}{% endblock %}">
     <meta name="author" content="{{ site_author }}">
     
-    <link rel="stylesheet" href="static/css/styles.css">
-    <link rel="stylesheet" href="static/css/prism.css">
+    <link rel="stylesheet" href="/JimiLand/static/css/styles.css">
+    <link rel="stylesheet" href="/JimiLand/static/css/prism.css">
     {% block extra_head %}{% endblock %}
 
     <style>
@@ -231,12 +231,12 @@
     <header class="site-header">
         <div class="container">
             <div class="header-content">
-                <h1 class="site-title"><a href="" style="text-decoration: none; color: inherit;">{{ site_title }}</a></h1>
+                <h1 class="site-title"><a href="/JimiLand/" style="text-decoration: none; color: inherit;">{{ site_title }}</a></h1>
                 <nav class="site-nav">
-                    <a href="" class="nav-link">Home</a>
-                    <a href="about" class="nav-link">About</a>
-                    <a href="gigs" class="nav-link">Gigs</a>
-                    <a href="archive" class="nav-link">Archive</a>
+                    <a href="/JimiLand/" class="nav-link">Home</a>
+                    <a href="/JimiLand/about/" class="nav-link">About</a>
+                    <a href="/JimiLand/gigs/" class="nav-link">Gigs</a>
+                    <a href="/JimiLand/archive/" class="nav-link">Archive</a>
                 </nav>
             </div>
         </div>
@@ -254,8 +254,8 @@
         </div>
     </footer>
 
-    <script src="static/js/prism.js"></script>
-    <script src="static/js/main.js"></script>
+    <script src="/JimiLand/static/js/prism.js"></script>
+    <script src="/JimiLand/static/js/main.js"></script>
     {% block extra_scripts %}{% endblock %}
 </body>
 </html>
