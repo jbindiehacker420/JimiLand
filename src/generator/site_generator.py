@@ -513,16 +513,24 @@ class SiteGenerator:
 
     def _copy_static_files(self):
         """Copy static assets to output directory."""
-        static_src = self.template_dir.parent / 'static'
+        static_src = Path('src/static')
         static_dest = self.output_dir / 'static'
-        
+
+        # Create the static directory in output if it doesn't exist
+        static_dest.mkdir(exist_ok=True)
+
+        # Copy all files from src/static to output/static
         if static_src.exists():
-            # Remove existing static directory if it exists
-            if static_dest.exists():
-                shutil.rmtree(static_dest)
-            
-            # Copy static files
-            shutil.copytree(static_src, static_dest)
+            for item in static_src.glob('**/*'):
+                if item.is_file():
+                    # Get the relative path from src/static
+                    rel_path = item.relative_to(static_src)
+                    # Create the destination path
+                    dest_path = static_dest / rel_path
+                    # Create parent directories if they don't exist
+                    dest_path.parent.mkdir(parents=True, exist_ok=True)
+                    # Copy the file
+                    shutil.copy2(item, dest_path)
 
 
 if __name__ == "__main__":
