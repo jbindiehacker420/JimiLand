@@ -1,0 +1,251 @@
+[
+  {
+    "title": "HST - Letter",
+    "description": "Hunter writing to his friend about life",
+    "date": "2024-11-09",
+    "tag": "writing",
+    "slug": "HST-Letter",
+    "published": false,
+    "content_url": "https://www.notion.so/HST-139cb99eb16c8005b8aaca02156e879f?pvs=4",
+    "content": []
+  },
+  {
+    "title": "DSO - 2024",
+    "description": "Setlist of recent DSO shows in London 2024",
+    "date": "2024-11-03",
+    "tag": "music",
+    "slug": "dark-star-orchestra-2024 ",
+    "published": true,
+    "content_url": "https://www.notion.so/Dark-Star-Orchestra-London-September-2024-1-139cb99eb16c8096974ced8535d73d02?pvs=4",
+    "content": [
+      {
+        "type": "heading_1",
+        "content": "Night One"
+      },
+      {
+        "type": "paragraph",
+        "content": "A repeat of the famous Grateful Dead show from 50 years ago, performeing the same set list in the same venue.",
+        "annotations": {
+          "bold": false,
+          "italic": false,
+          "strikethrough": false,
+          "underline": false,
+          "code": false,
+          "color": "default"
+        }
+      },
+      {
+        "type": "heading_3",
+        "content": "Set 1:"
+      },
+      {
+        "type": "bullet",
+        "content": "Around And Around (YouTube)"
+      },
+      {
+        "type": "bullet",
+        "content": "Mississippi Half-Step Uptown Toodleloo"
+      },
+      {
+        "type": "bullet",
+        "content": "Beat It On Down The Line (YouTube)"
+      },
+      {
+        "type": "bullet",
+        "content": "Peggy-O (YouTube)"
+      },
+      {
+        "type": "bullet",
+        "content": "Black Throated Wind"
+      },
+      {
+        "type": "bullet",
+        "content": "China Cat Sunflower (YouTube) >"
+      },
+      {
+        "type": "bullet",
+        "content": "I Know You Rider (YouTube)"
+      },
+      {
+        "type": "bullet",
+        "content": "Loser (YouTube)"
+      },
+      {
+        "type": "bullet",
+        "content": "Weather Report Suite Prelude"
+      },
+      {
+        "type": "bullet",
+        "content": "Weather Report Suite Part 1"
+      },
+      {
+        "type": "bullet",
+        "content": "Let It Grow"
+      },
+      {
+        "type": "bullet",
+        "content": "Stella Blue (YouTube)"
+      },
+      {
+        "type": "heading_3",
+        "content": "Set 2:"
+      },
+      {
+        "type": "bullet",
+        "content": "Me And My Uncle"
+      },
+      {
+        "type": "bullet",
+        "content": "Dire Wolf"
+      },
+      {
+        "type": "bullet",
+        "content": "Not Fade Away (YouTube)"
+      },
+      {
+        "type": "bullet",
+        "content": "Ramble On Rose (YouTube)"
+      },
+      {
+        "type": "bullet",
+        "content": "Big River"
+      },
+      {
+        "type": "bullet",
+        "content": "Dark Star (YouTube) >"
+      },
+      {
+        "type": "bullet",
+        "content": "Morning Dew (YouTube)"
+      },
+      {
+        "type": "bullet",
+        "content": "Sugar Magnolia (YouTube)"
+      },
+      {
+        "type": "heading_3",
+        "content": "Encore:"
+      },
+      {
+        "type": "bullet",
+        "content": "U.S. Blues"
+      },
+      {
+        "type": "bullet",
+        "content": "Piece Of My Heart"
+      },
+      {
+        "type": "heading_2",
+        "content": "Night Two"
+      },
+      {
+        "type": "heading_3",
+        "content": "Set 1:"
+      },
+      {
+        "type": "bullet",
+        "content": "Let The Good Times Roll"
+      },
+      {
+        "type": "bullet",
+        "content": "Feel Like A Stranger"
+      },
+      {
+        "type": "bullet",
+        "content": "Cumberland Blues"
+      },
+      {
+        "type": "bullet",
+        "content": "Just Like Tom Thumb's Blues"
+      },
+      {
+        "type": "bullet",
+        "content": "C.C. Rider (YouTube)"
+      },
+      {
+        "type": "bullet",
+        "content": "Mission In The Rain (YouTube)"
+      },
+      {
+        "type": "bullet",
+        "content": "Hell In A Bucket"
+      },
+      {
+        "type": "bullet",
+        "content": "You Ain't Woman Enough (To Take My Man)"
+      },
+      {
+        "type": "bullet",
+        "content": "Bird Song"
+      },
+      {
+        "type": "bullet",
+        "content": "Jack Straw (YouTube)"
+      },
+      {
+        "type": "heading_3",
+        "content": "Set 2:"
+      },
+      {
+        "type": "bullet",
+        "content": "Uncle John's Band (YouTube) >"
+      },
+      {
+        "type": "bullet",
+        "content": "Estimated Prophet"
+      },
+      {
+        "type": "bullet",
+        "content": "Eyes Of The World (YouTube) >"
+      },
+      {
+        "type": "bullet",
+        "content": "Unbroken Chain (YouTube) >"
+      },
+      {
+        "type": "bullet",
+        "content": "Drums"
+      },
+      {
+        "type": "bullet",
+        "content": "Imagine (instrumental) (YouTube) >"
+      },
+      {
+        "type": "bullet",
+        "content": "China Doll (YouTube) >"
+      },
+      {
+        "type": "bullet",
+        "content": "Throwing Stones"
+      },
+      {
+        "type": "bullet",
+        "content": "Touch Of Grey (YouTube) >"
+      },
+      {
+        "type": "heading_3",
+        "content": "Encore:"
+      },
+      {
+        "type": "bullet",
+        "content": "Woodstock"
+      },
+      {
+        "type": "bullet",
+        "content": "Brokedown Palace"
+      },
+      {
+        "type": "paragraph",
+        "content": "Link to nearly a 1000 DSO tapes > (Archive)",
+        "annotations": {
+          "bold": false,
+          "italic": false,
+          "strikethrough": false,
+          "underline": false,
+          "code": false,
+          "color": "default"
+        }
+      }
+    ]
+  }
+]

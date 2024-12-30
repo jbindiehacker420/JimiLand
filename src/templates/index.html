@@ -1,0 +1,58 @@
+{# Extend base template #}
+{% extends "base.html" %}
+
+{# Title block #}
+{% block title %}{{ site_title }}{% endblock %}
+
+{# Article list page content #}
+{% block content %}
+    {# Article previews #}
+    {% for article in articles %}
+        <article class="article-preview">
+            {# Article header with title and metadata #}
+            <header>
+                <h2><a href="/posts/{{ article.slug }}/">{{ article.title }}</a></h2>
+                <div class="article-meta">Posted on {{ article.date|date }}</div>
+            </header>
+
+            {# Article description #}
+            {% if article.description %}
+                <p>{{ article.description }}</p>
+            {% endif %}
+
+            {# Article tags #}
+            {% if article.tags %}
+                <div class="article-tags" style="margin: 1rem 0;">
+                    {% for tag in article.tags %}
+                        <span class="tag" style="background: #e5e7eb; padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.875rem; margin-right: 0.5rem;">{{ tag }}</span>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            {# Read more link #}
+            <p>
+                <a href="/posts/{{ article.slug }}/" class="read-more">Read more →</a>
+            </p>
+        </article>
+    {% endfor %}
+
+    {# Pagination #}
+    {% if pagination %}
+        <nav class="pagination" style="margin-top: 2rem; text-align: center;">
+            {# Previous page link #}
+            {% if pagination.prev_page %}
+                <a href="{{ pagination.prev_page }}" class="pagination-link" style="margin-right: 1rem;">← Previous</a>
+            {% endif %}
+
+            {# Page number indicator #}
+            <span class="pagination-current" style="margin: 0 1rem;">
+                Page {{ pagination.current_page }} of {{ pagination.total_pages }}
+            </span>
+
+            {# Next page link #}
+            {% if pagination.next_page %}
+                <a href="{{ pagination.next_page }}" class="pagination-link" style="margin-left: 1rem;">Next →</a>
+            {% endif %}
+        </nav>
+    {% endif %}
+{% endblock %}

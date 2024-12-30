@@ -1,0 +1,344 @@
+{% extends "base.html" %}
+
+{% block title %}Gigs - {{ site_title }}{% endblock %}
+
+{% block content %}
+<div class="gigs-page">
+    <!-- View Toggle -->
+    <div class="view-toggle">
+        <button class="view-button active" data-view="list">List View</button>
+        <button class="view-button" data-view="calendar">Calendar View</button>
+    </div>
+
+    <!-- Stats Summary -->
+    <div class="gigs-stats">
+        <div class="stat-item">
+            <span class="stat-number">{{ gigs|length }}</span>
+            <span class="stat-label">Total Gigs</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-number">{{ venues|length }}</span>
+            <span class="stat-label">Venues</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-number">{{ artists|length }}</span>
+            <span class="stat-label">Artists</span>
+        </div>
+    </div>
+
+    <!-- List View -->
+    <div class="gigs-list view-section active" id="list-view">
+        {% for year, year_gigs in gigs|groupby('year')|reverse %}
+        <div class="year-section">
+            <h2>{{ year }}</h2>
+            <div class="gigs-grid">
+                {% for gig in year_gigs|sort(attribute='date')|reverse %}
+                <div class="gig-card">
+                    <div class="gig-date">{{ gig.date|date }}</div>
+                    <h3 class="gig-artist">{{ gig.artist }}</h3>
+                    <div class="gig-venue">{{ gig.venue }}</div>
+                    {% if gig.rating %}
+                    <div class="gig-rating">
+                        {% for i in range(gig.rating) %}⭐{% endfor %}
+                    </div>
+                    {% endif %}
+                    {% if gig.notes %}
+                    <div class="gig-notes">{{ gig.notes }}</div>
+                    {% endif %}
+                    {% if gig.setlist_url %}
+                    <a href="{{ gig.setlist_url }}" class="setlist-link" target="_blank">View Setlist</a>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Calendar View -->
+    <div class="gigs-calendar view-section" id="calendar-view">
+        <div id="calendar"></div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css">
+<style>
+    /* Gigs Page Styles */
+    .gigs-page {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
+    }
+
+    /* View Toggle */
+    .view-toggle {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 2rem;
+        justify-content: center;
+    }
+
+    .view-button {
+        padding: 0.5rem 1rem;
+        border: 1px solid var(--border-color);
+        background: var(--bg-color);
+        color: var(--text-color);
+        border-radius: 0.5rem;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+
+    .view-button.active {
+        background: var(--primary-color);
+        color: white;
+        border-color: var(--primary-color);
+    }
+
+    /* Stats Summary */
+    .gigs-stats {
+        display: flex;
+        justify-content: center;
+        gap: 2rem;
+        margin-bottom: 3rem;
+        flex-wrap: wrap;
+    }
+
+    .stat-item {
+        text-align: center;
+        padding: 1rem;
+        background: var(--bg-secondary);
+        border-radius: 0.5rem;
+        min-width: 150px;
+    }
+
+    .stat-number {
+        display: block;
+        font-size: 2rem;
+        font-weight: bold;
+        color: var(--primary-color);
+    }
+
+    .stat-label {
+        font-size: 0.9rem;
+        color: var(--text-secondary);
+    }
+
+    /* Gigs Grid */
+    .year-section {
+        margin-bottom: 3rem;
+    }
+
+    .year-section h2 {
+        margin-bottom: 1.5rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 2px solid var(--border-color);
+    }
+
+    .gigs-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 1.5rem;
+    }
+
+    .gig-card {
+        background: var(--bg-secondary);
+        border-radius: 0.5rem;
+        padding: 1.5rem;
+        transition: transform 0.2s;
+    }
+
+    .gig-card:hover {
+        transform: translateY(-2px);
+    }
+
+    .gig-date {
+        color: var(--text-secondary);
+        font-size: 0.9rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .gig-artist {
+        font-size: 1.25rem;
+        margin: 0 0 0.5rem 0;
+    }
+
+    .gig-venue {
+        color: var(--text-secondary);
+        margin-bottom: 0.5rem;
+    }
+
+    .gig-rating {
+        margin: 0.5rem 0;
+    }
+
+    .gig-notes {
+        font-size: 0.9rem;
+        color: var(--text-secondary);
+        margin-top: 0.5rem;
+    }
+
+    .setlist-link {
+        display: inline-block;
+        margin-top: 1rem;
+        padding: 0.25rem 0.5rem;
+        background: var(--primary-color);
+        color: white;
+        border-radius: 0.25rem;
+        font-size: 0.9rem;
+        text-decoration: none;
+    }
+
+    /* Calendar View */
+    .view-section {
+        display: none;
+    }
+
+    .view-section.active {
+        display: block;
+    }
+
+    #calendar {
+        margin-top: 2rem;
+        background: var(--bg-secondary);
+        padding: 1rem;
+        border-radius: 0.5rem;
+    }
+
+    /* FullCalendar Customization */
+    .fc {
+        --fc-border-color: var(--border-color);
+        --fc-button-bg-color: var(--primary-color);
+        --fc-button-border-color: var(--primary-color);
+        --fc-button-hover-bg-color: var(--primary-color-dark);
+        --fc-button-hover-border-color: var(--primary-color-dark);
+        --fc-button-active-bg-color: var(--primary-color);
+        --fc-button-active-border-color: var(--primary-color);
+    }
+
+    .fc .fc-button {
+        background-color: var(--primary-color);
+        border-color: var(--primary-color);
+    }
+
+    .fc .fc-button:hover {
+        background-color: var(--primary-color-dark);
+        border-color: var(--primary-color-dark);
+    }
+
+    .fc .fc-daygrid-day {
+        background-color: var(--bg-color);
+    }
+
+    .fc .fc-daygrid-day.fc-day-today {
+        background-color: var(--bg-highlight);
+    }
+
+    .fc .fc-daygrid-day-frame {
+        min-height: 100px;
+    }
+
+    .fc .fc-daygrid-day-number {
+        font-size: 1rem;
+        padding: 0.5rem;
+    }
+
+    .fc .fc-event {
+        background-color: var(--primary-color);
+        border-color: var(--primary-color);
+        padding: 0.25rem;
+    }
+
+    .fc .fc-event-title {
+        font-weight: normal;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .gigs-page {
+            padding: 1rem;
+        }
+
+        .gigs-stats {
+            gap: 1rem;
+        }
+
+        .stat-item {
+            min-width: 120px;
+        }
+
+        .gigs-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // View Toggle
+    const viewButtons = document.querySelectorAll('.view-button');
+    const viewSections = document.querySelectorAll('.view-section');
+
+    viewButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const view = button.dataset.view;
+            
+            // Update buttons
+            viewButtons.forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+            
+            // Update sections
+            viewSections.forEach(section => {
+                section.classList.remove('active');
+                if (section.id === `${view}-view`) {
+                    section.classList.add('active');
+                }
+            });
+
+            // Trigger window resize to fix calendar rendering
+            if (view === 'calendar') {
+                window.dispatchEvent(new Event('resize'));
+            }
+        });
+    });
+
+    // Initialize Calendar
+    const calendarEl = document.getElementById('calendar');
+    const calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        events: {{ calendar_events|tojson }},
+        headerToolbar: {
+            left: 'prev,next today',
+            center: 'title',
+            right: 'dayGridMonth,dayGridYear'
+        },
+        views: {
+            dayGridMonth: {
+                displayEventTime: false,
+                fixedWeekCount: true,  // Always show 6 weeks
+                showNonCurrentDates: true  // Show days from other months
+            },
+            dayGridYear: {
+                displayEventTime: false
+            }
+        },
+        eventClick: function(info) {
+            if (info.event.url) {
+                window.open(info.event.url);
+                info.jsEvent.preventDefault();
+            }
+        },
+        height: 'auto',
+        firstDay: 1,  // Start week on Monday
+        displayEventEnd: false,
+        eventDisplay: 'block',
+        dayMaxEvents: true,  // Allow "more" link when too many events
+    });
+    calendar.render();
+});
+</script>
+{% endblock %}

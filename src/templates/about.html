@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}About - {{ site_title }}{% endblock %}
+
+{% block content %}
+<div class="about-page">
+    <!-- Intentionally left blank -->
+</div>
+{% endblock %}
+
+{% block extra_head %}
+<style>
+    .about-page {
+        min-height: calc(100vh - 200px); /* Ensures page fills viewport minus header space */
+    }
+</style>
+{% endblock %}
