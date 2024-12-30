@@ -256,6 +256,9 @@ The site uses Jinja2 templates with a modular structure:
    - Add comprehensive docstrings
    - Keep functions focused and modular
 
+## Live Site
+The site is live at: https://CajunJimi.github.io/JimiLand/
+
 ## License
 
 This project is licensed under the MIT License - see the LICENSE file for details.

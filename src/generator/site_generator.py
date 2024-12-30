@@ -75,7 +75,8 @@ class SiteGenerator:
         self.site_config = {
             'title': 'Jimi Land',
             'description': 'A personal website about music, life, and adventures',
-            'author': 'Josh Brown'
+            'author': 'Josh Brown',
+            'base_url': os.getenv('SITE_BASE_URL', '')  # Get base URL from environment
         }
 
     def _calculate_reading_time(self, content: str) -> str:
@@ -263,6 +264,7 @@ class SiteGenerator:
             site_title=self.site_config['title'],
             site_description=self.site_config['description'],
             site_author=self.site_config['author'],
+            site_base_url=self.site_config['base_url'],
             article=article,
             current_year=datetime.now().year
         )
@@ -293,6 +295,7 @@ class SiteGenerator:
             site_title=self.site_config['title'],
             site_description=self.site_config['description'],
             site_author=self.site_config['author'],
+            site_base_url=self.site_config['base_url'],
             articles=articles
         )
 
@@ -437,6 +440,7 @@ class SiteGenerator:
                 site_title=self.site_config['title'],
                 site_description=self.site_config['description'],
                 site_author=self.site_config['author'],
+                site_base_url=self.site_config['base_url'],
                 gigs=gigs,  # All gigs for processing in template
                 gigs_by_year=gigs_by_year,  # Gigs grouped by year
                 years=sorted(gigs_by_year.keys(), reverse=True),  # Years for iteration
@@ -467,7 +471,8 @@ class SiteGenerator:
             output = template.render(
                 site_title=self.site_config['title'],
                 site_description=self.site_config['description'],
-                site_author=self.site_config['author']
+                site_author=self.site_config['author'],
+                site_base_url=self.site_config['base_url']
             )
 
             # Write the file
@@ -496,6 +501,7 @@ class SiteGenerator:
             site_title=self.site_config['title'],
             site_description=self.site_config['description'],
             site_author=self.site_config['author'],
+            site_base_url=self.site_config['base_url'],
             articles=articles
         )
 
