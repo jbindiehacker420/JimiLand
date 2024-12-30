@@ -261,8 +261,11 @@ class SiteGenerator:
         """
         template = self.jinja_env.get_template('post.html')
         output = template.render(
+            site_title=self.site_config['title'],
+            site_description=self.site_config['description'],
+            site_author=self.site_config['author'],
+            base_url=self.site_config['base_url'],
             article=article,
-            **self.site_config,
             current_year=datetime.now().year
         )
         
@@ -292,6 +295,7 @@ class SiteGenerator:
             site_title=self.site_config['title'],
             site_description=self.site_config['description'],
             site_author=self.site_config['author'],
+            base_url=self.site_config['base_url'],
             articles=articles
         )
 
@@ -434,6 +438,9 @@ class SiteGenerator:
             template = self.jinja_env.get_template('gigs.html')
             output = template.render(
                 site_title=self.site_config['title'],
+                site_description=self.site_config['description'],
+                site_author=self.site_config['author'],
+                base_url=self.site_config['base_url'],
                 gigs=gigs,  # All gigs for processing in template
                 gigs_by_year=gigs_by_year,  # Gigs grouped by year
                 years=sorted(gigs_by_year.keys(), reverse=True),  # Years for iteration
@@ -462,7 +469,10 @@ class SiteGenerator:
             # Generate the page using our template
             template = self.jinja_env.get_template('about.html')
             output = template.render(
-                site_title=self.site_config['title']
+                site_title=self.site_config['title'],
+                site_description=self.site_config['description'],
+                site_author=self.site_config['author'],
+                base_url=self.site_config['base_url']
             )
 
             # Write the file
@@ -491,6 +501,7 @@ class SiteGenerator:
             site_title=self.site_config['title'],
             site_description=self.site_config['description'],
             site_author=self.site_config['author'],
+            base_url=self.site_config['base_url'],
             articles=articles
         )
 
