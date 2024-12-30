@@ -35,4 +35,3 @@ jobs:
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./output
-        cname: jimiLand.com  # Remove this line if you don't have a custom domain
