@@ -29,7 +29,7 @@ if not NOTION_API_KEY or not NOTION_DATABASE_ID:
 SITE_TITLE = "Jimi Land"  # Your blog title
 SITE_DESCRIPTION = "Personal blog powered by Notion"
 SITE_AUTHOR = "Josh Brown"
-SITE_URL = "http://localhost:8000"  # Change this to your actual domain in production
+SITE_URL = "https://cajunjimi.github.io/JimiLand"  # Updated to GitHub Pages URL
 
 # Blog settings
 POSTS_PER_PAGE = 10  # Number of posts to display per page
