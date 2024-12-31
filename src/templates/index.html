@@ -6,16 +6,16 @@
 
 {# Article list page content #}
 {% block content %}
-    <div style="max-width: 800px; margin: 0 auto; text-align: center;">
+    <div style="max-width: 800px; margin: 0 auto;">
         {# Article previews #}
         {% for article in articles %}
-            <article class="article-preview" style="margin-bottom: 2.5rem;">
+            <article class="article-preview" style="margin-bottom: 2.5rem; text-align: right;">
                 <div class="article-meta" style="color: #666; font-size: 0.9em;">
                     {{ article.date|date }}
                     <span style="margin-left: 1rem;">{{ article.read_time }} min read</span>
                 </div>
-                <h2 style="margin-top: 0.5rem;">
-                    <a href="{{ site_base_url }}/posts/{{ article.slug }}/" style="text-decoration: none;">{{ article.title }}</a>
+                <h2 style="margin-top: 0.5rem; text-align: center;">
+                    <a href="{{ site_base_url }}/posts/{{ article.slug }}/" style="text-decoration: none; color: white;">{{ article.title }}</a>
                 </h2>
             </article>
         {% endfor %}
