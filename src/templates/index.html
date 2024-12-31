@@ -11,7 +11,7 @@
         <article class="article-preview">
             {# Article header with title and metadata #}
             <header>
-                <h2><a href="/posts/{{ article.slug }}/">{{ article.title }}</a></h2>
+                <h2><a href="{{ site_base_url }}/posts/{{ article.slug }}/">{{ article.title }}</a></h2>
                 <div class="article-meta">Posted on {{ article.date|date }}</div>
             </header>
 
@@ -31,7 +31,7 @@
 
             {# Read more link #}
             <p>
-                <a href="/posts/{{ article.slug }}/" class="read-more">Read more →</a>
+                <a href="{{ site_base_url }}/posts/{{ article.slug }}/" class="read-more">Read more →</a>
             </p>
         </article>
     {% endfor %}
@@ -41,7 +41,7 @@
         <nav class="pagination" style="margin-top: 2rem; text-align: center;">
             {# Previous page link #}
             {% if pagination.prev_page %}
-                <a href="{{ pagination.prev_page }}" class="pagination-link" style="margin-right: 1rem;">← Previous</a>
+                <a href="{{ site_base_url }}{{ pagination.prev_page }}" class="pagination-link" style="margin-right: 1rem;">← Previous</a>
             {% endif %}
 
             {# Page number indicator #}
@@ -51,7 +51,7 @@
 
             {# Next page link #}
             {% if pagination.next_page %}
-                <a href="{{ pagination.next_page }}" class="pagination-link" style="margin-left: 1rem;">Next →</a>
+                <a href="{{ site_base_url }}{{ pagination.next_page }}" class="pagination-link" style="margin-left: 1rem;">Next →</a>
             {% endif %}
         </nav>
     {% endif %}
