@@ -6,36 +6,38 @@
 
 {# Article list page content #}
 {% block content %}
-    {# Article previews #}
-    {% for article in articles %}
-        <article class="article-preview" style="margin-bottom: 1.5rem;">
-            <div class="article-meta" style="color: #666; font-size: 0.9em;">
-                {{ article.date|date }}
-                <span style="margin-left: 1rem;">{{ article.read_time }} min read</span>
-            </div>
-            <h2 style="margin-top: 0.25rem;">
-                <a href="{{ site_base_url }}/posts/{{ article.slug }}/">{{ article.title }}</a>
-            </h2>
-        </article>
-    {% endfor %}
+    <div style="max-width: 800px; margin: 0 auto; text-align: center;">
+        {# Article previews #}
+        {% for article in articles %}
+            <article class="article-preview" style="margin-bottom: 2.5rem;">
+                <div class="article-meta" style="color: #666; font-size: 0.9em;">
+                    {{ article.date|date }}
+                    <span style="margin-left: 1rem;">{{ article.read_time }} min read</span>
+                </div>
+                <h2 style="margin-top: 0.5rem;">
+                    <a href="{{ site_base_url }}/posts/{{ article.slug }}/" style="text-decoration: none;">{{ article.title }}</a>
+                </h2>
+            </article>
+        {% endfor %}
 
-    {# Pagination #}
-    {% if pagination %}
-        <nav class="pagination" style="margin-top: 2rem; text-align: center;">
-            {# Previous page link #}
-            {% if pagination.prev_page %}
-                <a href="{{ site_base_url }}{{ pagination.prev_page }}" class="pagination-link" style="margin-right: 1rem;">← Previous</a>
-            {% endif %}
+        {# Pagination #}
+        {% if pagination %}
+            <nav class="pagination" style="margin-top: 3rem; text-align: center;">
+                {# Previous page link #}
+                {% if pagination.prev_page %}
+                    <a href="{{ site_base_url }}{{ pagination.prev_page }}" class="pagination-link" style="margin-right: 1rem;">← Previous</a>
+                {% endif %}
 
-            {# Page number indicator #}
-            <span class="pagination-current" style="margin: 0 1rem;">
-                Page {{ pagination.current_page }} of {{ pagination.total_pages }}
-            </span>
+                {# Page number indicator #}
+                <span class="pagination-current" style="margin: 0 1rem;">
+                    Page {{ pagination.current_page }} of {{ pagination.total_pages }}
+                </span>
 
-            {# Next page link #}
-            {% if pagination.next_page %}
-                <a href="{{ site_base_url }}{{ pagination.next_page }}" class="pagination-link" style="margin-left: 1rem;">Next →</a>
-            {% endif %}
-        </nav>
-    {% endif %}
+                {# Next page link #}
+                {% if pagination.next_page %}
+                    <a href="{{ site_base_url }}{{ pagination.next_page }}" class="pagination-link" style="margin-left: 1rem;">Next →</a>
+                {% endif %}
+            </nav>
+        {% endif %}
+    </div>
 {% endblock %}
