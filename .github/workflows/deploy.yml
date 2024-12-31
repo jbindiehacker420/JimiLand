@@ -32,28 +32,34 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-    - name: Configure Pages
-      id: pages
-      uses: actions/configure-pages@v3
+    - name: Debug environment
+      run: |
+        pwd
+        ls -la
+        python --version
+        pip list
+        echo "SITE_BASE_URL value:"
+        echo $SITE_BASE_URL
 
     - name: Build site
       env:
         NOTION_API_KEY: ${{ secrets.NOTION_API_KEY }}
         NOTION_DATABASE_ID: ${{ secrets.NOTION_DATABASE_ID }}
         NOTION_GIGS_DATABASE_ID: ${{ secrets.NOTION_GIGS_DATABASE_ID }}
-        SITE_BASE_URL: ''  # Changed to empty string since we're testing locally
+        SITE_BASE_URL: '/JimiLand'
       run: |
-        echo "Building site..."
+        echo "Starting site generation..."
         python -m src.generator.site_generator
-        echo "Verifying output..."
-        if [ ! -f "output/index.html" ]; then
-          echo "Error: index.html not found in output directory"
-          exit 1
-        fi
-        echo "Content of output directory:"
+        echo "Site generation complete. Checking output..."
         ls -la output/
-        echo "First few lines of index.html:"
-        head -n 10 output/index.html
+        echo "Contents of output/index.html:"
+        cat output/index.html
+        echo "Contents of output/static:"
+        ls -la output/static/
+        echo "Contents of templates:"
+        ls -la src/templates/
+        echo "Contents of base.html:"
+        cat src/templates/base.html
 
     - name: Upload artifact
       uses: actions/upload-pages-artifact@v2

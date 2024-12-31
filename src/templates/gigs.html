@@ -2,15 +2,89 @@
 
 {% block title %}Gigs - {{ site_title }}{% endblock %}
 
+{% block extra_head %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css">
+<style>
+    .view-toggle {
+        display: flex;
+        gap: 0.5rem;
+        justify-content: center;
+        margin-bottom: 2rem;
+    }
+
+    .view-button {
+        padding: 0.5rem 1rem;
+        background: #1a1a1a;
+        border: 1px solid #333;
+        color: #e0e0e0;
+        border-radius: 0.25rem;
+        cursor: pointer;
+    }
+
+    .view-button.active {
+        background: #2563eb;
+        border-color: #2563eb;
+        color: white;
+    }
+
+    .gigs-stats {
+        display: flex;
+        justify-content: center;
+        gap: 4rem;
+        margin: 2rem 0;
+        text-align: center;
+    }
+
+    .stat-number {
+        display: block;
+        font-size: 2rem;
+        color: #3b82f6;
+        font-weight: bold;
+    }
+
+    .stat-label {
+        color: #9ca3af;
+        font-size: 0.875rem;
+    }
+
+    .view-section {
+        display: none;
+    }
+
+    .view-section.active {
+        display: block;
+    }
+
+    #calendar {
+        background: #1a1a1a;
+        padding: 1rem;
+        border-radius: 0.5rem;
+        border: 1px solid #333;
+    }
+
+    .fc {
+        --fc-border-color: #333;
+        --fc-button-text-color: #e0e0e0;
+        --fc-button-bg-color: #1a1a1a;
+        --fc-button-border-color: #333;
+        --fc-button-hover-bg-color: #2a2a2a;
+        --fc-button-hover-border-color: #444;
+        --fc-button-active-bg-color: #2563eb;
+        --fc-button-active-border-color: #2563eb;
+        --fc-event-bg-color: #2563eb;
+        --fc-event-border-color: #2563eb;
+        --fc-today-bg-color: #2a2a2a;
+    }
+</style>
+{% endblock %}
+
 {% block content %}
-<div class="gigs-page">
-    <!-- View Toggle -->
+<div class="gigs-container">
     <div class="view-toggle">
         <button class="view-button active" data-view="list">List View</button>
         <button class="view-button" data-view="calendar">Calendar View</button>
     </div>
 
-    <!-- Stats Summary -->
     <div class="gigs-stats">
         <div class="stat-item">
             <span class="stat-number">{{ gigs|length }}</span>
@@ -26,253 +100,31 @@
         </div>
     </div>
 
-    <!-- List View -->
-    <div class="gigs-list view-section active" id="list-view">
+    <div class="view-section active" id="list-view">
         {% for year, year_gigs in gigs|groupby('year')|reverse %}
-        <div class="year-section">
-            <h2>{{ year }}</h2>
-            <div class="gigs-grid">
+            <h2 class="text-xl font-bold mb-4">{{ year }}</h2>
+            <div class="grid gap-4 mb-8">
                 {% for gig in year_gigs|sort(attribute='date')|reverse %}
-                <div class="gig-card">
-                    <div class="gig-date">{{ gig.date|date }}</div>
-                    <h3 class="gig-artist">{{ gig.artist }}</h3>
-                    <div class="gig-venue">{{ gig.venue }}</div>
-                    {% if gig.rating %}
-                    <div class="gig-rating">
-                        {% for i in range(gig.rating) %}⭐{% endfor %}
+                    <div class="bg-gray-800 p-4 rounded-lg">
+                        <div class="text-sm text-gray-400">{{ gig.date|date }}</div>
+                        <h3 class="text-lg font-semibold mt-1">{{ gig.artist }}</h3>
+                        <div class="text-gray-300">{{ gig.venue }}</div>
+                        {% if gig.rating %}
+                            <div class="mt-2">{% for i in range(gig.rating) %}⭐{% endfor %}</div>
+                        {% endif %}
+                        {% if gig.notes %}
+                            <div class="mt-2 text-gray-400">{{ gig.notes }}</div>
+                        {% endif %}
                     </div>
-                    {% endif %}
-                    {% if gig.notes %}
-                    <div class="gig-notes">{{ gig.notes }}</div>
-                    {% endif %}
-                    {% if gig.setlist_url %}
-                    <a href="{{ gig.setlist_url }}" class="setlist-link" target="_blank">View Setlist</a>
-                    {% endif %}
-                </div>
                 {% endfor %}
             </div>
-        </div>
         {% endfor %}
     </div>
 
-    <!-- Calendar View -->
-    <div class="gigs-calendar view-section" id="calendar-view">
+    <div class="view-section" id="calendar-view">
         <div id="calendar"></div>
     </div>
 </div>
-{% endblock %}
-
-{% block extra_head %}
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css">
-<style>
-    /* Gigs Page Styles */
-    .gigs-page {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 2rem;
-    }
-
-    /* View Toggle */
-    .view-toggle {
-        display: flex;
-        gap: 1rem;
-        margin-bottom: 2rem;
-        justify-content: center;
-    }
-
-    .view-button {
-        padding: 0.5rem 1rem;
-        border: 1px solid var(--border-color);
-        background: var(--bg-color);
-        color: var(--text-color);
-        border-radius: 0.5rem;
-        cursor: pointer;
-        transition: all 0.2s;
-    }
-
-    .view-button.active {
-        background: var(--primary-color);
-        color: white;
-        border-color: var(--primary-color);
-    }
-
-    /* Stats Summary */
-    .gigs-stats {
-        display: flex;
-        justify-content: center;
-        gap: 2rem;
-        margin-bottom: 3rem;
-        flex-wrap: wrap;
-    }
-
-    .stat-item {
-        text-align: center;
-        padding: 1rem;
-        background: var(--bg-secondary);
-        border-radius: 0.5rem;
-        min-width: 150px;
-    }
-
-    .stat-number {
-        display: block;
-        font-size: 2rem;
-        font-weight: bold;
-        color: var(--primary-color);
-    }
-
-    .stat-label {
-        font-size: 0.9rem;
-        color: var(--text-secondary);
-    }
-
-    /* Gigs Grid */
-    .year-section {
-        margin-bottom: 3rem;
-    }
-
-    .year-section h2 {
-        margin-bottom: 1.5rem;
-        padding-bottom: 0.5rem;
-        border-bottom: 2px solid var(--border-color);
-    }
-
-    .gigs-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-        gap: 1.5rem;
-    }
-
-    .gig-card {
-        background: var(--bg-secondary);
-        border-radius: 0.5rem;
-        padding: 1.5rem;
-        transition: transform 0.2s;
-    }
-
-    .gig-card:hover {
-        transform: translateY(-2px);
-    }
-
-    .gig-date {
-        color: var(--text-secondary);
-        font-size: 0.9rem;
-        margin-bottom: 0.5rem;
-    }
-
-    .gig-artist {
-        font-size: 1.25rem;
-        margin: 0 0 0.5rem 0;
-    }
-
-    .gig-venue {
-        color: var(--text-secondary);
-        margin-bottom: 0.5rem;
-    }
-
-    .gig-rating {
-        margin: 0.5rem 0;
-    }
-
-    .gig-notes {
-        font-size: 0.9rem;
-        color: var(--text-secondary);
-        margin-top: 0.5rem;
-    }
-
-    .setlist-link {
-        display: inline-block;
-        margin-top: 1rem;
-        padding: 0.25rem 0.5rem;
-        background: var(--primary-color);
-        color: white;
-        border-radius: 0.25rem;
-        font-size: 0.9rem;
-        text-decoration: none;
-    }
-
-    /* Calendar View */
-    .view-section {
-        display: none;
-    }
-
-    .view-section.active {
-        display: block;
-    }
-
-    #calendar {
-        margin-top: 2rem;
-        background: var(--bg-secondary);
-        padding: 1rem;
-        border-radius: 0.5rem;
-    }
-
-    /* FullCalendar Customization */
-    .fc {
-        --fc-border-color: var(--border-color);
-        --fc-button-bg-color: var(--primary-color);
-        --fc-button-border-color: var(--primary-color);
-        --fc-button-hover-bg-color: var(--primary-color-dark);
-        --fc-button-hover-border-color: var(--primary-color-dark);
-        --fc-button-active-bg-color: var(--primary-color);
-        --fc-button-active-border-color: var(--primary-color);
-    }
-
-    .fc .fc-button {
-        background-color: var(--primary-color);
-        border-color: var(--primary-color);
-    }
-
-    .fc .fc-button:hover {
-        background-color: var(--primary-color-dark);
-        border-color: var(--primary-color-dark);
-    }
-
-    .fc .fc-daygrid-day {
-        background-color: var(--bg-color);
-    }
-
-    .fc .fc-daygrid-day.fc-day-today {
-        background-color: var(--bg-highlight);
-    }
-
-    .fc .fc-daygrid-day-frame {
-        min-height: 100px;
-    }
-
-    .fc .fc-daygrid-day-number {
-        font-size: 1rem;
-        padding: 0.5rem;
-    }
-
-    .fc .fc-event {
-        background-color: var(--primary-color);
-        border-color: var(--primary-color);
-        padding: 0.25rem;
-    }
-
-    .fc .fc-event-title {
-        font-weight: normal;
-    }
-
-    /* Responsive Design */
-    @media (max-width: 768px) {
-        .gigs-page {
-            padding: 1rem;
-        }
-
-        .gigs-stats {
-            gap: 1rem;
-        }
-
-        .stat-item {
-            min-width: 120px;
-        }
-
-        .gigs-grid {
-            grid-template-columns: 1fr;
-        }
-    }
-</style>
 {% endblock %}
 
 {% block extra_scripts %}
@@ -299,9 +151,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             });
 
-            // Trigger window resize to fix calendar rendering
-            if (view === 'calendar') {
-                window.dispatchEvent(new Event('resize'));
+            if (view === 'calendar' && calendar) {
+                calendar.render();
             }
         });
     });
@@ -310,33 +161,17 @@ document.addEventListener('DOMContentLoaded', function() {
     const calendarEl = document.getElementById('calendar');
     const calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: 'dayGridMonth',
-        events: {{ calendar_events|tojson }},
+        events: {{ calendar_events|tojson|safe }},
         headerToolbar: {
             left: 'prev,next today',
             center: 'title',
             right: 'dayGridMonth,dayGridYear'
         },
-        views: {
-            dayGridMonth: {
-                displayEventTime: false,
-                fixedWeekCount: true,  // Always show 6 weeks
-                showNonCurrentDates: true  // Show days from other months
-            },
-            dayGridYear: {
-                displayEventTime: false
-            }
-        },
-        eventClick: function(info) {
-            if (info.event.url) {
-                window.open(info.event.url);
-                info.jsEvent.preventDefault();
-            }
-        },
         height: 'auto',
-        firstDay: 1,  // Start week on Monday
+        firstDay: 1,
         displayEventEnd: false,
         eventDisplay: 'block',
-        dayMaxEvents: true,  // Allow "more" link when too many events
+        dayMaxEvents: true
     });
     calendar.render();
 });
