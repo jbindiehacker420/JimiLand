@@ -1,6 +1,5 @@
 """
 Configuration settings for the static site generator.
-This module centralizes all configuration variables used throughout the application.
 """
 import os
 from pathlib import Path
@@ -26,17 +25,19 @@ if not NOTION_API_KEY or not NOTION_DATABASE_ID:
     )
 
 # Site settings
-SITE_TITLE = "Jimi Land"  # Your blog title
+SITE_TITLE = "Jimi Land"
 SITE_DESCRIPTION = "Personal blog powered by Notion"
 SITE_AUTHOR = "Josh Brown"
-SITE_URL = "https://cajunjimi.github.io/JimiLand"  # Updated to GitHub Pages URL
+
+# Use environment variable for base URL, defaulting to GitHub Pages URL
+SITE_BASE_URL = os.getenv('SITE_BASE_URL', '/jimiland')
+SITE_URL = f"https://cajunjimi.github.io{SITE_BASE_URL}"
 
 # Blog settings
-POSTS_PER_PAGE = 10  # Number of posts to display per page
-DATE_FORMAT = "%B %d, %Y"  # Format for displaying dates
+POSTS_PER_PAGE = 10
+DATE_FORMAT = "%B %d, %Y"
 
 # Required Notion database properties
-# These must match exactly with your Notion database property names
 NOTION_PROPERTIES = {
     'title': 'title',
     'slug': 'slug',
