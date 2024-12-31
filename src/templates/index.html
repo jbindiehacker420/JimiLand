@@ -8,31 +8,14 @@
 {% block content %}
     {# Article previews #}
     {% for article in articles %}
-        <article class="article-preview">
-            {# Article header with title and metadata #}
-            <header>
-                <h2><a href="{{ site_base_url }}/posts/{{ article.slug }}/">{{ article.title }}</a></h2>
-                <div class="article-meta">Posted on {{ article.date|date }}</div>
-            </header>
-
-            {# Article description #}
-            {% if article.description %}
-                <p>{{ article.description }}</p>
-            {% endif %}
-
-            {# Article tags #}
-            {% if article.tags %}
-                <div class="article-tags" style="margin: 1rem 0;">
-                    {% for tag in article.tags %}
-                        <span class="tag" style="background: #e5e7eb; padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.875rem; margin-right: 0.5rem;">{{ tag }}</span>
-                    {% endfor %}
-                </div>
-            {% endif %}
-
-            {# Read more link #}
-            <p>
-                <a href="{{ site_base_url }}/posts/{{ article.slug }}/" class="read-more">Read more →</a>
-            </p>
+        <article class="article-preview" style="margin-bottom: 1.5rem;">
+            <div class="article-meta" style="color: #666; font-size: 0.9em;">
+                {{ article.date|date }}
+                <span style="margin-left: 1rem;">{{ article.read_time }} min read</span>
+            </div>
+            <h2 style="margin-top: 0.25rem;">
+                <a href="{{ site_base_url }}/posts/{{ article.slug }}/">{{ article.title }}</a>
+            </h2>
         </article>
     {% endfor %}
 
