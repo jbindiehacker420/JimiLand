@@ -3,28 +3,109 @@
 {% block title %}{{ site_title }}{% endblock %}
 
 {% block content %}
-    {% for article in articles %}
-        <article class="article-preview">
-            <header>
-                <h2><a href="{{ site_base_url }}/posts/{{ article.slug }}/">{{ article.title }}</a></h2>
-                <div class="article-meta">{{ article.date|date }}</div>
-            </header>
-        </article>
-    {% endfor %}
+    <div class="home-page">
+        <div class="article-list">
+            {% for article in articles %}
+                <div class="article-item">
+                    <div class="article-meta">
+                        {{ article.date|date }}
+                        <span class="reading-time">{{ article.content_html|reading_time }}</span>
+                    </div>
+                    <div class="article-content">
+                        <a href="{{ site_base_url }}/posts/{{ article.slug }}/" class="article-title">{{ article.title }}</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
 
-    {% if pagination %}
-        <nav class="pagination">
-            {% if pagination.prev_page %}
-                <a href="{{ site_base_url }}{{ pagination.prev_page }}">← Previous</a>
-            {% endif %}
+        {% if pagination %}
+            <nav class="pagination">
+                {% if pagination.prev_page %}
+                    <a href="{{ site_base_url }}{{ pagination.prev_page }}" class="pagination-link">← Previous</a>
+                {% endif %}
+                <span class="pagination-current">Page {{ pagination.current_page }} of {{ pagination.total_pages }}</span>
+                {% if pagination.next_page %}
+                    <a href="{{ site_base_url }}{{ pagination.next_page }}" class="pagination-link">Next →</a>
+                {% endif %}
+            </nav>
+        {% endif %}
+    </div>
 
-            <span class="pagination-current">
-                Page {{ pagination.current_page }} of {{ pagination.total_pages }}
-            </span>
+    <style>
+        .home-page {
+            max-width: 800px;
+            margin: 0 auto;
+            padding-top: 2rem;
+        }
 
-            {% if pagination.next_page %}
-                <a href="{{ site_base_url }}{{ pagination.next_page }}">Next →</a>
-            {% endif %}
-        </nav>
-    {% endif %}
+        .article-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .article-item {
+            display: grid;
+            grid-template-columns: 200px 1fr;
+            gap: 2rem;
+            padding: 1rem;
+            border-radius: 8px;
+            transition: background-color 0.2s;
+        }
+
+        .article-item:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        .article-meta {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .reading-time {
+            display: block;
+            margin-top: 0.5rem;
+            font-size: 0.8rem;
+            color: #888;
+        }
+
+        .article-content {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .article-title {
+            color: #fff;
+            font-size: 1.1rem;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .article-title:hover {
+            color: #3b82f6;
+        }
+
+        .pagination {
+            margin-top: 3rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .pagination-link {
+            color: #3b82f6;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .pagination-link:hover {
+            color: #60a5fa;
+        }
+
+        .pagination-current {
+            color: #666;
+        }
+    </style>
 {% endblock %}
