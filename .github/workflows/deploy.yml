@@ -1,0 +1,79 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.8'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Debug environment
+      run: |
+        pwd
+        ls -la
+        python --version
+        pip list
+        echo "SITE_BASE_URL value:"
+        echo $SITE_BASE_URL
+
+    - name: Build site
+      env:
+        NOTION_API_KEY: ${{ secrets.NOTION_API_KEY }}
+        NOTION_DATABASE_ID: ${{ secrets.NOTION_DATABASE_ID }}
+        NOTION_GIGS_DATABASE_ID: ${{ secrets.NOTION_GIGS_DATABASE_ID }}
+        SITE_BASE_URL: '/JimiLand'
+      run: |
+        echo "Starting site generation..."
+        python -m src.generator.site_generator
+        echo "Site generation complete. Checking output..."
+        ls -la output/
+        echo "Contents of output/index.html:"
+        cat output/index.html
+        echo "Contents of output/static:"
+        ls -la output/static/
+        echo "Contents of templates:"
+        ls -la src/templates/
+        echo "Contents of base.html:"
+        cat src/templates/base.html
+
+    - name: Upload artifact
+      uses: actions/upload-pages-artifact@v2
+      with:
+        path: './output'
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    
+    steps:
+    - name: Deploy to GitHub Pages
+      id: deployment
+      uses: actions/deploy-pages@v2

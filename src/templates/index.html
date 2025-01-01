@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}{{ site_title }}{% endblock %}
+
+{% block content %}
+    {% for article in articles %}
+        <article class="article-preview">
+            <header>
+                <h2><a href="{{ site_base_url }}/posts/{{ article.slug }}/">{{ article.title }}</a></h2>
+                <div class="article-meta">{{ article.date|date }}</div>
+            </header>
+        </article>
+    {% endfor %}
+
+    {% if pagination %}
+        <nav class="pagination">
+            {% if pagination.prev_page %}
+                <a href="{{ site_base_url }}{{ pagination.prev_page }}">← Previous</a>
+            {% endif %}
+
+            <span class="pagination-current">
+                Page {{ pagination.current_page }} of {{ pagination.total_pages }}
+            </span>
+
+            {% if pagination.next_page %}
+                <a href="{{ site_base_url }}{{ pagination.next_page }}">Next →</a>
+            {% endif %}
+        </nav>
+    {% endif %}
+{% endblock %}

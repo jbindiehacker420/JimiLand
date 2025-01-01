@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{{ site_title }}{% endblock %}</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ site_base_url }}/static/css/styles.css">
+    {% if theme == 'dark' %}
+    <link rel="stylesheet" href="{{ site_base_url }}/static/css/dark-theme.css">
+    {% endif %}
+    {% block extra_head %}{% endblock %}
+</head>
+<body class="dark:bg-gray-900 dark:text-white">
+    <div class="min-h-screen">
+        <header class="border-b border-gray-800 py-4">
+            <div class="container mx-auto px-4">
+                <div class="flex justify-between items-center">
+                    <h1 class="text-xl font-bold">
+                        <a href="{{ site_base_url }}/" class="text-blue-400">{{ site_title }}</a>
+                    </h1>
+                    <nav class="space-x-6">
+                        <a href="{{ site_base_url }}/" class="text-gray-300 hover:text-white">Home</a>
+                        <a href="{{ site_base_url }}/about/" class="text-gray-300 hover:text-white">About</a>
+                        <a href="{{ site_base_url }}/gigs/" class="text-gray-300 hover:text-white">Gigs</a>
+                        <a href="{{ site_base_url }}/archive/" class="text-gray-300 hover:text-white">Archive</a>
+                    </nav>
+                </div>
+            </div>
+        </header>
+
+        <main class="container mx-auto px-4 py-8">
+            {% block content %}{% endblock %}
+        </main>
+
+        <footer class="mt-auto py-6 text-center text-gray-500">
+            <p>&copy; {{ current_year }} {{ site_title }}</p>
+        </footer>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="{{ site_base_url }}/static/js/main.js"></script>
+    {% block extra_scripts %}{% endblock %}
+</body>
+</html>
