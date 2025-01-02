@@ -1,0 +1,127 @@
+# Media Archive Feature - Implementation Plan
+
+## Overview
+Add a comprehensive media archive to catalog and describe music-related content including films, 
+books, videos, tweets, and articles. Use Notion as CMS for consistent content management.
+
+## Phase 1: Notion Setup
+1. Create Media Archive Database in Notion
+   - Properties:
+     * Title (Title)
+     * Type (Select: Film/Book/Video/Tweet/Article)
+     * URL (URL)
+     * Description (Rich Text)
+     * Why It's Important (Rich Text)
+     * Date Added (Date)
+     * Tags (Multi-select)
+     * Rating (Number, 1-5)
+     * Status (Select)
+
+2. Sample Entry Structure
+   ```
+   Title: "Jazz on a Summer's Day"
+   Type: Film
+   URL: [Film URL]
+   Description: 1959 concert film...
+   Why Important: First major jazz festival film...
+   Tags: Jazz, Documentary, 1950s
+   ```
+
+## Phase 2: Site Integration
+1. Update Site Generator
+   - Add media content type processing
+   - Handle different media embeds
+   - Create new template types
+
+2. Create Templates
+   - media_archive.html (main listing)
+   - media_item.html (individual items)
+   - Include in base navigation
+
+3. Add Static Assets
+   - CSS for media grid/list views
+   - JavaScript for filtering/sorting
+   - Media type icons
+
+## Phase 3: Features
+1. Browse & Navigation
+   - Grid/List toggle view
+   - Filter by type/tags
+   - Search functionality
+   - Sort by date/rating
+
+2. Media Display
+   - YouTube embeds
+   - Twitter embeds
+   - Book/Film cover images
+   - Rich text formatting
+
+3. Related Content
+   - Tag-based recommendations
+   - Type-based grouping
+   - "More like this" section
+
+## Technical Requirements
+1. Additional Python Packages
+   - youtube-dl (video info)
+   - twitter API (tweet embeds)
+   - requests (external data)
+
+2. New Template Files
+   ```
+   templates/
+   ├── media/
+   │   ├── archive.html
+   │   ├── item.html
+   │   └── grid.html
+   ```
+
+3. New Static Files
+   ```
+   static/
+   ├── css/
+   │   └── media.css
+   ├── js/
+   │   └── media.js
+   └── icons/
+       └── media-types/
+   ```
+
+## URL Structure
+```
+/media/                    # Main archive
+/media/type/{type}/       # Type-specific listings
+/media/item/{slug}/       # Individual items
+/media/tags/{tag}/        # Tag-based listings
+```
+
+## Future Enhancements
+1. Integration Ideas
+   - Spotify API for album links
+   - Goodreads API for book data
+   - IMDB data for films
+   - Archive.org integration
+
+2. Feature Ideas
+   - Personal playlists/collections
+   - Rating system
+   - Comment system
+   - Share functionality
+   - Export capabilities
+
+## Notes
+- Keep design consistent with current site aesthetic
+- Maintain dark theme compatibility
+- Ensure mobile-friendly layout
+- Focus on performance with lazy loading
+- Consider pagination for large collections
+
+## Implementation Priority
+1. Basic Notion database setup
+2. Simple listing page
+3. Individual item pages
+4. Media embeds
+5. Filtering/sorting
+6. Advanced features
+
+Save this plan and implement when ready to expand the site's functionality.
