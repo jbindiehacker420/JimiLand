@@ -1,0 +1,77 @@
+# Common Git Commands Reference
+
+## Basic Commands
+# Check status of your files
+git status
+
+# Add all changes to staging
+git add .
+
+# Commit changes with a message
+git commit -m "Your descriptive message here"
+
+# Push changes to GitHub
+git push origin main
+
+## Complete Workflow
+# 1. Check status and branch
+git status
+git branch
+
+# 2. Add and commit changes
+git add .
+git commit -m "Description of changes"
+git push origin main
+
+## Common Scenarios
+
+# Scenario 1: Merge Conflicts
+# If you get merge conflicts, first pull the changes
+git pull origin main
+# If you see "divergent branches" message, use:
+git config pull.rebase false
+git pull origin main --allow-unrelated-histories
+
+# Scenario 2: Undo Last Commit (before push)
+git reset --soft HEAD~1
+
+# Scenario 3: Discard All Local Changes
+git checkout -- .
+git clean -fd  # Removes untracked files and directories
+
+# Scenario 4: Create New Branch
+git checkout -b new-branch-name
+
+# Scenario 5: Switch Branch
+git checkout branch-name
+
+# Scenario 6: View Commit History
+git log --oneline
+
+## Project-Specific Commands
+
+# Rebuild site after changes
+cd /Users/joshbrown/Desktop/Coding_Take_two/JimiLand
+python3 build.py
+
+# Complete workflow for site changes:
+# 1. Make your changes
+# 2. Test locally
+python3 build.py
+
+# 3. Commit and push
+git add .
+git commit -m "Description of changes"
+git push origin main
+
+## Tips
+- Always check git status before and after commands
+- Write clear, descriptive commit messages
+- Pull before pushing if working with others
+- Use git log to see commit history
+- If something goes wrong, check git status first
+
+## Emergency Reset (use with caution)
+# Reset to last commit, discarding all changes
+git reset --hard HEAD
+git clean -fd

@@ -125,25 +125,26 @@ This two-level structure (database → content pages) allows for better content 
 
 ## Project Structure
 
+⚠️ **IMPORTANT: Directory Structure**
+The project must maintain this exact structure. Do not create nested copies of the project directory:
+
 ```
-.
-├── src/
-│   ├── generator/        # Site generation logic
-│   │   └── site_generator.py
-│   ├── notion/          # Notion API integration
-│   │   └── processor.py
-│   ├── static/          # Static assets
-│   │   ├── css/         # Stylesheets
-│   │   └── js/          # JavaScript files
-│   └── templates/       # Jinja2 templates
-│       ├── base.html    # Base template with common elements
-│       ├── index.html   # Home page template
-│       ├── post.html    # Article template
-│       ├── archive.html # Archive page template
-│       └── gigs.html    # Gigs page template
-├── .env                # Environment variables
-├── .gitignore         # Git ignore rules
-└── README.md          # Documentation
+/your/path/JimiLand/           # Root project directory
+├── src/                       # Source code
+│   ├── generator/            # Site generation logic
+│   ├── notion/              # Notion API integration
+│   ├── static/              # Static assets
+│   └── templates/           # Jinja2 templates
+├── .env                     # Environment variables
+├── .gitignore              # Git ignore rules
+└── README.md               # Documentation
+```
+
+❌ **INCORRECT Structure (DO NOT DO THIS)**:
+```
+/your/path/JimiLand/           # Root directory
+└── JimiLand/                  # DO NOT create a nested copy
+    └── src/
 ```
 
 ## Templates
