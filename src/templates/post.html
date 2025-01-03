@@ -31,7 +31,6 @@
             <h1>{{ article.title }}</h1>
             <div class="post-meta">
                 <time datetime="{{ article.date }}">{{ article.date }}</time>
-                <span class="reading-time">{{ article.content_html|reading_time }}</span>
                 {% if article.tags %}
                 <span class="tags">
                     {% for tag in article.tags %}
