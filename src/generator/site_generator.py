@@ -295,11 +295,16 @@ class SiteGenerator:
         env = Environment(loader=FileSystemLoader(self.template_dir))
         template = env.get_template(template_name)
         
-        # Add Spotify data to context
-        spotify_context = context.copy()
-        spotify_context['current_track'] = get_current_track()
-        
-        return template.render(**spotify_context)
+        # Add Spotify data to context only if credentials are available
+        try:
+            spotify_context = context.copy()
+            current_track = get_current_track()
+            if current_track:
+                spotify_context['current_track'] = current_track
+            return template.render(**spotify_context)
+        except Exception as e:
+            print(f"Error adding Spotify data: {e}")
+            return template.render(**context)
 
     def _generate_index_page(self, articles: List[Dict] = None):
         """
