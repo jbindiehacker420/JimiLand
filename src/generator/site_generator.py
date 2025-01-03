@@ -25,6 +25,16 @@ from ..notion.processor import NotionProcessor
 from urllib.parse import quote
 from ..spotify.spotify import get_current_track
 
+def date_filter(date_str):
+    """Convert date string to formatted date"""
+    if isinstance(date_str, str):
+        try:
+            date_obj = datetime.strptime(date_str, '%Y-%m-%d')
+            return date_obj.strftime('%B %d, %Y')
+        except ValueError:
+            return date_str
+    return date_str
+
 class SiteGenerator:
     """
     Main class for generating static site from Notion content.
@@ -71,6 +81,9 @@ class SiteGenerator:
         
         # Add reading time filter
         self.jinja_env.filters['reading_time'] = self._calculate_reading_time
+        
+        # Add date filter
+        self.jinja_env.filters['date'] = date_filter
         
         # Site configuration
         self.site_config = {
