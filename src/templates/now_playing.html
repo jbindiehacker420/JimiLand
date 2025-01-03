@@ -1,0 +1,195 @@
+{% extends "base.html" %}
+
+{% block title %}Now Playing{% endblock %}
+
+{% block content %}
+<div class="now-playing-container">
+    <!-- Currently Playing -->
+    <section class="current-track">
+        <h2>Now Playing</h2>
+        <div id="current-track-display" class="track-card">
+            {% if spotify.current_track %}
+            <div class="track-info">
+                <img src="{{ spotify.current_track.album_art }}" alt="{{ spotify.current_track.album }}" class="album-art">
+                <div class="track-details">
+                    <h3>{{ spotify.current_track.name }}</h3>
+                    <p class="artist">{{ spotify.current_track.artist }}</p>
+                    <p class="album">{{ spotify.current_track.album }}</p>
+                    <div class="progress-bar">
+                        <div class="progress" style="width: {{ (spotify.current_track.progress_ms / spotify.current_track.duration_ms) * 100 }}%"></div>
+                    </div>
+                    <a href="{{ spotify.current_track.spotify_url }}" target="_blank" class="spotify-link">Open in Spotify</a>
+                </div>
+            </div>
+            {% else %}
+            <p class="no-track">Nothing playing right now</p>
+            {% endif %}
+        </div>
+    </section>
+
+    <!-- Recently Played -->
+    <section class="recent-tracks">
+        <h2>Recently Played</h2>
+        <div class="track-grid">
+            {% for track in spotify.recently_played %}
+            <div class="track-card">
+                <img src="{{ track.album_art }}" alt="{{ track.album }}" class="album-art">
+                <div class="track-details">
+                    <h3>{{ track.name }}</h3>
+                    <p class="artist">{{ track.artist }}</p>
+                    <p class="played-at">{{ track.played_at }}</p>
+                    <a href="{{ track.spotify_url }}" target="_blank" class="spotify-link">Open in Spotify</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <!-- Top Tracks -->
+    <section class="top-tracks">
+        <h2>Top Tracks This Month</h2>
+        <div class="track-grid">
+            {% for track in spotify.top_tracks %}
+            <div class="track-card">
+                <img src="{{ track.album_art }}" alt="{{ track.album }}" class="album-art">
+                <div class="track-details">
+                    <h3>{{ track.name }}</h3>
+                    <p class="artist">{{ track.artist }}</p>
+                    <a href="{{ track.spotify_url }}" target="_blank" class="spotify-link">Open in Spotify</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+</div>
+
+<style>
+    .now-playing-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
+    }
+
+    .track-card {
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 12px;
+        padding: 1rem;
+        margin-bottom: 1rem;
+        transition: transform 0.2s;
+    }
+
+    .track-card:hover {
+        transform: translateY(-2px);
+        background: rgba(255, 255, 255, 0.08);
+    }
+
+    .album-art {
+        width: 200px;
+        height: 200px;
+        border-radius: 8px;
+        margin-bottom: 1rem;
+    }
+
+    .track-details h3 {
+        margin: 0;
+        font-size: 1.2rem;
+        color: #fff;
+    }
+
+    .artist {
+        color: #888;
+        margin: 0.5rem 0;
+    }
+
+    .progress-bar {
+        width: 100%;
+        height: 4px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 2px;
+        margin: 1rem 0;
+    }
+
+    .progress {
+        height: 100%;
+        background: #1DB954;
+        border-radius: 2px;
+        transition: width 1s linear;
+    }
+
+    .spotify-link {
+        display: inline-block;
+        background: #1DB954;
+        color: #fff;
+        text-decoration: none;
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        margin-top: 1rem;
+        font-size: 0.9rem;
+        transition: background-color 0.2s;
+    }
+
+    .spotify-link:hover {
+        background: #1ed760;
+    }
+
+    .track-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 1rem;
+        margin-top: 1rem;
+    }
+
+    .no-track {
+        color: #888;
+        text-align: center;
+        padding: 2rem;
+    }
+
+    section {
+        margin-bottom: 3rem;
+    }
+
+    section h2 {
+        margin-bottom: 1.5rem;
+        color: #fff;
+    }
+
+    .played-at {
+        color: #666;
+        font-size: 0.9rem;
+        margin: 0.5rem 0;
+    }
+</style>
+
+<script>
+    // Update current track every 30 seconds
+    function updateCurrentTrack() {
+        fetch('/api/current-track')
+            .then(response => response.json())
+            .then(data => {
+                const display = document.getElementById('current-track-display');
+                if (data.current_track) {
+                    display.innerHTML = `
+                        <div class="track-info">
+                            <img src="${data.current_track.album_art}" alt="${data.current_track.album}" class="album-art">
+                            <div class="track-details">
+                                <h3>${data.current_track.name}</h3>
+                                <p class="artist">${data.current_track.artist}</p>
+                                <p class="album">${data.current_track.album}</p>
+                                <div class="progress-bar">
+                                    <div class="progress" style="width: ${(data.current_track.progress_ms / data.current_track.duration_ms) * 100}%"></div>
+                                </div>
+                                <a href="${data.current_track.spotify_url}" target="_blank" class="spotify-link">Open in Spotify</a>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    display.innerHTML = '<p class="no-track">Nothing playing right now</p>';
+                }
+            })
+            .catch(error => console.error('Error updating current track:', error));
+    }
+
+    setInterval(updateCurrentTrack, 30000);
+</script>
+{% endblock %}

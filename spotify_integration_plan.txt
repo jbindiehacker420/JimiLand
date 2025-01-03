@@ -1,0 +1,98 @@
+# Spotify Now Playing Integration
+
+## Setup Required
+1. Create Spotify Developer Account
+   - Go to https://developer.spotify.com/dashboard
+   - Create new application
+   - Get Client ID and Client Secret
+   - Set redirect URI (e.g., http://localhost:8000/callback)
+
+2. Required Scopes:
+   - user-read-currently-playing
+   - user-read-recently-played
+   - user-top-read
+
+## Implementation Options
+
+### Option 1: Static Generation with Dynamic Updates
+1. Create static page with placeholder
+2. Use JavaScript to fetch current track
+3. Update page content dynamically
+4. Advantages: Works with static site, real-time updates
+
+### Option 2: Server Update
+1. Fetch Spotify data during site build
+2. Show recently played if nothing current
+3. Advantage: No client-side API keys
+4. Disadvantage: Only updates on rebuild
+
+## Recommended Approach: Hybrid Solution
+1. Static page with recently played tracks
+2. JavaScript update for current track
+3. Fallback to recent tracks if nothing playing
+
+## Data to Display
+- Currently playing track
+  * Song title
+  * Artist
+  * Album
+  * Album artwork
+  * Progress bar
+  * Link to Spotify
+- Recently played tracks (last 5)
+- Top tracks this month
+
+## Technical Implementation
+
+### 1. Python Dependencies
+```
+pip install spotipy
+```
+
+### 2. Environment Variables
+```
+SPOTIFY_CLIENT_ID=your_client_id
+SPOTIFY_CLIENT_SECRET=your_client_secret
+SPOTIFY_REDIRECT_URI=your_redirect_uri
+```
+
+### 3. File Structure
+```
+src/
+├── spotify/
+│   ├── __init__.py
+│   ├── auth.py
+│   └── client.py
+├── templates/
+│   └── now_playing.html
+└── static/
+    ├── css/
+    │   └── spotify.css
+    └── js/
+        └── spotify.js
+```
+
+## Security Notes
+- Never expose API keys in client-side code
+- Use environment variables for sensitive data
+- Implement rate limiting
+- Cache responses when possible
+
+## Refresh Token Handling
+1. Store refresh token securely
+2. Auto-refresh when token expires
+3. Handle token rotation
+
+## Error Handling
+1. Show graceful fallback if:
+   - Nothing playing
+   - API error
+   - Rate limit reached
+   - Token expired
+
+## Future Enhancements
+1. Playlist showcase
+2. Listening statistics
+3. Music taste analysis
+4. Integration with blog posts
+5. Automatic music credits in posts
