@@ -15,6 +15,7 @@ from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 
 from src.generator.site_generator import SiteGenerator
+from src.spotify.spotify import get_current_track
 
 class RebuildHandler(FileSystemEventHandler):
     """Handles file system events to trigger site rebuilds."""
@@ -107,6 +108,21 @@ def main():
                 print("\nStopping file watcher...")
         
         observer.join()
+
+class SiteGenerator:
+    def __init__(self, output_dir, template_dir):
+        self.output_dir = output_dir
+        self.template_dir = template_dir
+
+    def generate_site(self):
+        # Get Spotify data
+        current_track = get_current_track()
+        
+        # Add to your template context
+        context = {
+            'current_track': current_track
+        }
+        # Your existing build code...
 
 if __name__ == "__main__":
     main()
