@@ -4,14 +4,70 @@
 
 {% block content %}
 <div class="about-page">
-    <!-- Intentionally left blank -->
+    {% if current_track %}
+    <div class="spotify-widget">
+        <h3>Currently Playing</h3>
+        <div class="track-info">
+            {% if current_track.album_art %}
+            <img src="{{ current_track.album_art }}" alt="{{ current_track.album }}" class="album-art">
+            {% endif %}
+            <div class="track-details">
+                <a href="{{ current_track.url }}" target="_blank" class="track-name">{{ current_track.name }}</a>
+                <span class="artist-name">by {{ current_track.artist }}</span>
+            </div>
+        </div>
+    </div>
+    {% endif %}
 </div>
 {% endblock %}
 
 {% block extra_head %}
 <style>
     .about-page {
-        min-height: calc(100vh - 200px); /* Ensures page fills viewport minus header space */
+        min-height: calc(100vh - 200px);
+        padding: 2rem;
+    }
+
+    .spotify-widget {
+        background: rgba(29, 185, 84, 0.1);
+        border-radius: 8px;
+        padding: 1rem;
+        max-width: 400px;
+        margin: 1rem 0;
+    }
+
+    .track-info {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-top: 1rem;
+    }
+
+    .album-art {
+        width: 60px;
+        height: 60px;
+        border-radius: 4px;
+    }
+
+    .track-details {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .track-name {
+        color: #fff;
+        text-decoration: none;
+        font-weight: bold;
+        margin-bottom: 0.2rem;
+    }
+
+    .track-name:hover {
+        color: #1DB954;
+    }
+
+    .artist-name {
+        color: #888;
+        font-size: 0.9rem;
     }
 </style>
 {% endblock %}

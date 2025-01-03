@@ -23,6 +23,7 @@ from notion_client import Client
 from jinja2 import Environment, FileSystemLoader
 from ..notion.processor import NotionProcessor
 from urllib.parse import quote
+from ..spotify.spotify import get_current_track
 
 class SiteGenerator:
     """
@@ -260,14 +261,14 @@ class SiteGenerator:
             article: Processed article dictionary
         """
         template = self.jinja_env.get_template('post.html')
-        output = template.render(
-            site_title=self.site_config['title'],
-            site_description=self.site_config['description'],
-            site_author=self.site_config['author'],
-            site_base_url=self.site_config['base_url'],
-            article=article,
-            current_year=datetime.now().year
-        )
+        output = self.render_template('post.html', {
+            'site_title': self.site_config['title'],
+            'site_description': self.site_config['description'],
+            'site_author': self.site_config['author'],
+            'site_base_url': self.site_config['base_url'],
+            'article': article,
+            'current_year': datetime.now().year
+        })
         
         # Create article directory and write HTML
         article_dir = self.output_dir / 'posts' / article['slug']
@@ -275,6 +276,17 @@ class SiteGenerator:
         
         with open(article_dir / 'index.html', 'w', encoding='utf-8') as f:
             f.write(output)
+
+    def render_template(self, template_name: str, context: Dict) -> str:
+        """Render a template with the given context."""
+        env = Environment(loader=FileSystemLoader(self.template_dir))
+        template = env.get_template(template_name)
+        
+        # Add Spotify data to context
+        spotify_context = context.copy()
+        spotify_context['current_track'] = get_current_track()
+        
+        return template.render(**spotify_context)
 
     def _generate_index_page(self, articles: List[Dict] = None):
         """
@@ -291,13 +303,13 @@ class SiteGenerator:
 
         # Generate the page
         template = self.jinja_env.get_template('index.html')
-        output = template.render(
-            site_title=self.site_config['title'],
-            site_description=self.site_config['description'],
-            site_author=self.site_config['author'],
-            site_base_url=self.site_config['base_url'],
-            articles=articles
-        )
+        output = self.render_template('index.html', {
+            'site_title': self.site_config['title'],
+            'site_description': self.site_config['description'],
+            'site_author': self.site_config['author'],
+            'site_base_url': self.site_config['base_url'],
+            'articles': articles
+        })
 
         # Write the file
         with open(self.output_dir / 'index.html', 'w', encoding='utf-8') as f:
@@ -436,20 +448,20 @@ class SiteGenerator:
 
             # Generate the page using our template
             template = self.jinja_env.get_template('gigs.html')
-            output = template.render(
-                site_title=self.site_config['title'],
-                site_description=self.site_config['description'],
-                site_author=self.site_config['author'],
-                site_base_url=self.site_config['base_url'],
-                gigs=gigs,  # All gigs for processing in template
-                gigs_by_year=gigs_by_year,  # Gigs grouped by year
-                years=sorted(gigs_by_year.keys(), reverse=True),  # Years for iteration
-                venues=sorted(list(venues)),  # Unique venues
-                artists=sorted(list(artists)),  # Unique artists
-                locations=sorted(list(locations)),  # Unique locations
-                calendar_events=calendar_events,  # Events for calendar view
-                total_gigs=len(gigs)  # Total number of gigs
-            )
+            output = self.render_template('gigs.html', {
+                'site_title': self.site_config['title'],
+                'site_description': self.site_config['description'],
+                'site_author': self.site_config['author'],
+                'site_base_url': self.site_config['base_url'],
+                'gigs': gigs,  # All gigs for processing in template
+                'gigs_by_year': gigs_by_year,  # Gigs grouped by year
+                'years': sorted(gigs_by_year.keys(), reverse=True),  # Years for iteration
+                'venues': sorted(list(venues)),  # Unique venues
+                'artists': sorted(list(artists)),  # Unique artists
+                'locations': sorted(list(locations)),  # Unique locations
+                'calendar_events': calendar_events,  # Events for calendar view
+                'total_gigs': len(gigs)  # Total number of gigs
+            })
 
             # Write the generated HTML to file
             gigs_dir = self.output_dir / 'gigs'
@@ -468,12 +480,12 @@ class SiteGenerator:
         try:
             # Generate the page using our template
             template = self.jinja_env.get_template('about.html')
-            output = template.render(
-                site_title=self.site_config['title'],
-                site_description=self.site_config['description'],
-                site_author=self.site_config['author'],
-                site_base_url=self.site_config['base_url']
-            )
+            output = self.render_template('about.html', {
+                'site_title': self.site_config['title'],
+                'site_description': self.site_config['description'],
+                'site_author': self.site_config['author'],
+                'site_base_url': self.site_config['base_url']
+            })
 
             # Write the file
             about_dir = self.output_dir / 'about'
@@ -497,13 +509,13 @@ class SiteGenerator:
 
         # Generate the page
         template = self.jinja_env.get_template('archive.html')
-        output = template.render(
-            site_title=self.site_config['title'],
-            site_description=self.site_config['description'],
-            site_author=self.site_config['author'],
-            site_base_url=self.site_config['base_url'],
-            articles=articles
-        )
+        output = self.render_template('archive.html', {
+            'site_title': self.site_config['title'],
+            'site_description': self.site_config['description'],
+            'site_author': self.site_config['author'],
+            'site_base_url': self.site_config['base_url'],
+            'articles': articles
+        })
 
         # Create archive directory and write the file
         archive_dir = self.output_dir / 'archive'
